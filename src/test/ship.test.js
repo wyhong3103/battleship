@@ -1,4 +1,4 @@
-import Ship from "./ship";
+import Ship from "../ship";
 
 test("A ship with length 1 should sunk with one hit", () => {
     const ship = Ship(1);

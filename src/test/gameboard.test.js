@@ -1,4 +1,4 @@
-import Gameboard from "./gameboard";
+import Gameboard from "../gameboard";
 
 function generateRandomShip(){
     const gridLength = 10;
@@ -42,7 +42,7 @@ describe("placeShip test", () => {
             for(let i = 0; i < 9; i++){
                 const gameBoard = Gameboard();
                 expect(gameBoard.placeShip(length, 0, i, false)).toBe(true);
-                expect(gameBoard.placeShip(length, 0, i+1, false)).toBe(true);
+                expect(gameBoard.placeShip(length, 0, i+1, false)).toBe(false);
             }
         }
 
@@ -50,7 +50,7 @@ describe("placeShip test", () => {
             for(let i = 0; i < 9; i++){
                 const gameBoard = Gameboard();
                 expect(gameBoard.placeShip(length, i, 0, true)).toBe(true);
-                expect(gameBoard.placeShip(length, i+1, 0, true)).toBe(true);
+                expect(gameBoard.placeShip(length, i+1, 0, true)).toBe(false);
             }
         }
     });
@@ -123,21 +123,21 @@ describe("receiveAttack test", () => {
     test("Destroy ships then game over", () => {
         const gameBoard = Gameboard();
         gameBoard.placeShip(1, 0, 0, true);
-        gameBoard.placeShip(1, 0, 1, true);
-        gameBoard.placeShip(1, 0, 2, true);
+        gameBoard.placeShip(1, 2, 1, true);
+        gameBoard.placeShip(1, 3, 3, true);
         expect(gameBoard.receiveAttack(0, 0)).toBe(3);
-        expect(gameBoard.receiveAttack(0, 1)).toBe(3);
-        expect(gameBoard.receiveAttack(0, 2)).toBe(3);
+        expect(gameBoard.receiveAttack(2, 1)).toBe(3);
+        expect(gameBoard.receiveAttack(3, 3)).toBe(3);
         expect(gameBoard.isGameOver()).toBe(true);
     });
     
     test("Destroy ships and not game over", () => {
         const gameBoard = Gameboard();
         gameBoard.placeShip(1, 0, 0, true);
-        gameBoard.placeShip(1, 0, 1, true);
-        gameBoard.placeShip(1, 0, 2, true);
+        gameBoard.placeShip(1, 2, 1, true);
+        gameBoard.placeShip(1, 3, 3, true);
         expect(gameBoard.receiveAttack(0, 0)).toBe(3);
-        expect(gameBoard.receiveAttack(0, 1)).toBe(3);
+        expect(gameBoard.receiveAttack(2, 1)).toBe(3);
         expect(gameBoard.isGameOver()).toBe(false);
     });
 });

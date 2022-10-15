@@ -32,8 +32,36 @@ const Gameboard = (() => {
     function isInvalidShip(fromRow, fromCol, toRow, toCol){
         // If testing a single coordinate, we only check fromRow and fromCol
         if (isInvalidCoord(fromRow,fromCol) || isInvalidCoord(toRow, toCol)) return true;
+
         // Testing both coordintes, make sure from is always smaller than to
         if (toRow < fromRow || toCol < fromCol) return true;
+
+        const dr = [-1, -1, 0, 1, 1, 1, 0, -1];
+        const dc = [0, 1, 1, 1, 0, -1, -1, -1];
+
+        if (fromRow === toRow){
+            for(let i = fromCol; i <= toCol; i++){
+                for(let j = 0; j < 8; j++){
+                    if (!(i+dc[j] < 0 || fromRow+dr[j] < 0 || i+dc[j] >= 10 || fromRow+dr[j] >= 10) &&
+                        grid[fromRow+dr[j]][i+dc[j]] !== -1
+                    ){
+                       return true; 
+                    }
+                }
+            }
+        }
+        if (fromCol === toCol){
+            for(let i = fromRow; i <= toRow; i++){
+                for(let j = 0; j < 8; j++){
+                    if (!(fromCol+dc[j] < 0 || i+dr[j] < 0 || fromCol+dc[j] >= 10 || i+dr[j] >= 10) &&
+                        grid[i+dr[j]][fromCol+dc[j]] !== -1
+                    ){
+                       return true; 
+                    }
+                }
+            }
+        }
+
         return false;
     }
 
@@ -83,12 +111,10 @@ const Gameboard = (() => {
                 shipsRemaining -= 1;
                 
                 // If sunk the ship
-
                 return 3;
             }
 
             // If hit a ship
-
             return 2;
         }
 
