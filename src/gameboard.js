@@ -81,13 +81,19 @@ const Gameboard = (() => {
             ships[grid[row][col]].hit();
             if (ships[grid[row][col]].isSunk()){
                 shipsRemaining -= 1;
+                
+                // If sunk the ship
+
+                return 3;
             }
+
             // If hit a ship
-            return 1;
+
+            return 2;
         }
 
         // If hit nothing
-        return 2;
+        return 1;
     }
 
     function isGameOver(){

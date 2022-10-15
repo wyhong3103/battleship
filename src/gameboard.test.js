@@ -16,13 +16,6 @@ function generateRandomShip(){
     return ret;
 }
 
-/*
-
-    PLACING SHIP TEST
-
-*/
-
-
 describe("placeShip test", () => {
     test("Placing a ship at {0,0} to {0,3}", () => {
         const gameBoard = Gameboard();
@@ -80,32 +73,26 @@ describe("placeShip test", () => {
     });
 });
 
-/*
-
-    ATTACK TEST
-
-*/
-
 
 describe("receiveAttack test", () => {
     test("Attack a ship with one hit", () => {
         const gameBoard = Gameboard();
         gameBoard.placeShip(1, 0, 0, true);
-        expect(gameBoard.receiveAttack(0, 0)).toBe(1);
+        expect(gameBoard.receiveAttack(0, 0)).toBe(3);
     });
 
     test("Destroy a ship", () => {
         const gameBoard = Gameboard();
         gameBoard.placeShip(3, 0, 0, true);
-        expect(gameBoard.receiveAttack(0, 0)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 1)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 2)).toBe(1);
+        expect(gameBoard.receiveAttack(0, 0)).toBe(2);
+        expect(gameBoard.receiveAttack(0, 1)).toBe(2);
+        expect(gameBoard.receiveAttack(0, 2)).toBe(3);
     });
 
     test("Attack an empty cell", () => {
         const gameBoard = Gameboard();
         gameBoard.placeShip(1, 0, 0, true);
-        expect(gameBoard.receiveAttack(0, 1)).toBe(2);
+        expect(gameBoard.receiveAttack(0, 1)).toBe(1);
     });
 
     test("Attack an attacked cell", () => {
@@ -118,18 +105,18 @@ describe("receiveAttack test", () => {
     test("Destroy a ship then an empty cell", () => {
         const gameBoard = Gameboard();
         gameBoard.placeShip(3, 0, 0, true);
-        expect(gameBoard.receiveAttack(0, 0)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 1)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 2)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 3)).toBe(2);
+        expect(gameBoard.receiveAttack(0, 0)).toBe(2);
+        expect(gameBoard.receiveAttack(0, 1)).toBe(2);
+        expect(gameBoard.receiveAttack(0, 2)).toBe(3);
+        expect(gameBoard.receiveAttack(0, 3)).toBe(1);
     });
 
     test("Destroy a ship then game over", () => {
         const gameBoard = Gameboard();
         gameBoard.placeShip(3, 0, 0, true);
-        expect(gameBoard.receiveAttack(0, 0)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 1)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 2)).toBe(1);
+        expect(gameBoard.receiveAttack(0, 0)).toBe(2);
+        expect(gameBoard.receiveAttack(0, 1)).toBe(2);
+        expect(gameBoard.receiveAttack(0, 2)).toBe(3);
         expect(gameBoard.isGameOver()).toBe(true);
     });
 
@@ -138,9 +125,9 @@ describe("receiveAttack test", () => {
         gameBoard.placeShip(1, 0, 0, true);
         gameBoard.placeShip(1, 0, 1, true);
         gameBoard.placeShip(1, 0, 2, true);
-        expect(gameBoard.receiveAttack(0, 0)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 1)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 2)).toBe(1);
+        expect(gameBoard.receiveAttack(0, 0)).toBe(3);
+        expect(gameBoard.receiveAttack(0, 1)).toBe(3);
+        expect(gameBoard.receiveAttack(0, 2)).toBe(3);
         expect(gameBoard.isGameOver()).toBe(true);
     });
     
@@ -149,8 +136,8 @@ describe("receiveAttack test", () => {
         gameBoard.placeShip(1, 0, 0, true);
         gameBoard.placeShip(1, 0, 1, true);
         gameBoard.placeShip(1, 0, 2, true);
-        expect(gameBoard.receiveAttack(0, 0)).toBe(1);
-        expect(gameBoard.receiveAttack(0, 1)).toBe(1);
+        expect(gameBoard.receiveAttack(0, 0)).toBe(3);
+        expect(gameBoard.receiveAttack(0, 1)).toBe(3);
         expect(gameBoard.isGameOver()).toBe(false);
     });
 });
