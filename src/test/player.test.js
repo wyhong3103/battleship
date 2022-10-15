@@ -5,7 +5,7 @@ test("Spawning random ships on one gameboard, and let computer destroy all of th
     const dummy = Player();
     const computer = Player();
 
-    const totalShips = Math.floor(Math.random() * 100)+1;
+    const expectedShips = Math.floor(Math.random() * 50)+1;
     let coords = [];
     for(let i = 0; i < 10; i++){
         for(let j = 0; j < 10; j++){
@@ -15,8 +15,11 @@ test("Spawning random ships on one gameboard, and let computer destroy all of th
     coords = shuffle(coords);
 
     // Placing ships
-    for(let i = 0; i < totalShips; i++){
-        dummy.gameboard.placeShip(1, coords[i][0], coords[i][1]);
+    let totalShips = 0;
+    for(let i = 0; i < expectedShips; i++){
+        if (dummy.gameboard.placeShip(1, coords[i][0], coords[i][1])){
+            totalShips += 1;
+        }
     }
 
     // Destroy ships
