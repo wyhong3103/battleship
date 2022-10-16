@@ -1,5 +1,5 @@
 import Player from '../player';
-import shuffle from '../util';
+import {shuffle} from '../util';
 
 test("Spawning random ships on one gameboard, and let computer destroy all of them", ()=>{
     const dummy = Player();
