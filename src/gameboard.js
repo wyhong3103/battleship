@@ -177,7 +177,7 @@ const Gameboard = (() => {
         isValidPlacement,
         shipAt,
         getShip,
-        unplaceShip
+        unplaceShip,
     }
 });
 

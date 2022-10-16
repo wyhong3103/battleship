@@ -38,5 +38,5 @@ export {
     shuffle,
     createComp,
     selectComp,
-    selectComps
+    selectComps,
 };

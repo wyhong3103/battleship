@@ -131,7 +131,6 @@ const Controller = (() => {
     return{
         init
     }
-
 })();    
 
 Controller.init();

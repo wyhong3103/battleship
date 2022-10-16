@@ -1,5 +1,5 @@
 import Gameboard from "./gameboard";
-import shuffle from "./util";
+import { shuffle } from "./util";
 
 const Player = (() => {
     const gameboard = Gameboard();    
