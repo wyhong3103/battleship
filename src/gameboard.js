@@ -65,6 +65,9 @@ const Gameboard = (() => {
         return false;
     }
 
+    function shipLengthAt(row, col){
+        return ships[grid[row][col]].shipLength;
+    }
 
     function isEmpty(fromRow, fromCol, toRow, toCol){
         let valid = true;
@@ -141,7 +144,8 @@ const Gameboard = (() => {
         placeShip,
         receiveAttack,
         isGameOver,
-        isValidPlacement
+        isValidPlacement,
+        shipLengthAt
     }
 });
 
