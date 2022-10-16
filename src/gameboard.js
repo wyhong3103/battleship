@@ -65,8 +65,12 @@ const Gameboard = (() => {
         return false;
     }
 
+    function getShip(id){
+        return ships[id];
+    }
+
     function shipAt(row, col){
-        return (grid[row][col] === -1 ? -1 : ships[grid[row][col]]);
+        return grid[row][col];
     }
 
     function isEmpty(fromRow, fromCol, toRow, toCol){
@@ -172,6 +176,7 @@ const Gameboard = (() => {
         isGameOver,
         isValidPlacement,
         shipAt,
+        getShip,
         unplaceShip
     }
 });
