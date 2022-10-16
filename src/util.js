@@ -29,9 +29,14 @@ function selectComp(selector){
     return document.querySelector(selector);
 }
 
+function selectComps(selector){
+    return document.querySelectorAll(selector);
+}
+
 
 export {
     shuffle,
     createComp,
-    selectComp
+    selectComp,
+    selectComps
 };
