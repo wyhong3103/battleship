@@ -65,8 +65,8 @@ const Gameboard = (() => {
         return false;
     }
 
-    function shipLengthAt(row, col){
-        return (grid[row][col] !== -1 ? ships[grid[row][col]].shipLength : -1);
+    function shipAt(row, col){
+        return (grid[row][col] === -1 ? -1 : ships[grid[row][col]]);
     }
 
     function isEmpty(fromRow, fromCol, toRow, toCol){
@@ -93,23 +93,48 @@ const Gameboard = (() => {
         return false;
     }
 
-    function placeShip(length, row, col, isHorizontal){
+    function unplaceShip(id){
+        const [row,col] = ships[id].getHead;
+        const length = ships[id].shipLength;
+        const isHorizontal = ships[id].getHor;
+
+        if (isHorizontal){
+            for(let i = col; i < col+length; i++){
+                grid[row][i] = -1;
+            }        
+        }
+        else{
+            for(let i = row; i < row+length; i++){
+                grid[i][col] = -1;
+            }        
+        }
+    }
+
+    function placeShip(length, row, col, isHorizontal, id = -1){
         const shipID = ships.length;
         if (isHorizontal && isValidPlacement(length, row, col, isHorizontal)){
             for(let i = col; i < col+length; i++){
                 grid[row][i] = shipID;
             }        
-            ships.push(Ship(length));
+            if (id === -1) ships.push(Ship(length, [row,col], isHorizontal));
+            else {
+                ships[id].setHead([row,col]);
+                ships[id].setHor(isHorizontal);
+            }
         }
         else if (!isHorizontal && isValidPlacement(length, row, col, isHorizontal)){
             for(let i = row; i < row+length; i++){
                 grid[i][col] = shipID;
             }        
-            ships.push(Ship(length));
+            if (id === -1) ships.push(Ship(length, [row,col], isHorizontal));
+            else{
+                ships[id].setHead([row,col]);
+                ships[id].setHor(isHorizontal);
+            }
         }else{
             return false;
         }
-        shipsRemaining += 1;
+        if (id === -1) shipsRemaining += 1;
         return true;
     }
 
@@ -145,7 +170,8 @@ const Gameboard = (() => {
         receiveAttack,
         isGameOver,
         isValidPlacement,
-        shipLengthAt
+        shipAt,
+        unplaceShip
     }
 });
 
