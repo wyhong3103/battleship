@@ -22,6 +22,11 @@ describe("shipLengthAt" ,() => {
         gameboard.placeShip(4, 0, 0, true);
         expect(gameboard.shipLengthAt(0,0)).toBe(4);
     });
+
+    test("Retrieve an empty ship length at {0,0}", () => {
+        const gameboard = Gameboard();
+        expect(gameboard.shipLengthAt(0,0)).toBe(-1);
+    });
 });
 
 describe("placeShip test", () => {
