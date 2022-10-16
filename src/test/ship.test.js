@@ -1,8 +1,22 @@
 import Ship from "../ship";
 
-test("Able to retrieve the length", () => {
+test("Able to retrieve the length / head/ isHorizontal", () => {
     const ship = Ship(4, [0,0], true);
     expect(ship.shipLength).toBe(4);
+    expect(ship.getHead()).toEqual([0,0]);
+    expect(ship.getHor()).toBe(true);
+});
+
+test("Able to change the head/ isHorizontal", () => {
+    const ship = Ship(4, [0,0], true);
+    expect(ship.shipLength).toBe(4);
+    expect(ship.getHead()).toEqual([0,0]);
+    expect(ship.getHor()).toBe(true);
+
+    ship.setHead([1,1]);
+    ship.setHor(false);
+    expect(ship.getHead()).toEqual([1,1]);
+    expect(ship.getHor()).toBe(false);
 });
 
 test("A ship with length 1 should sunk with one hit", () => {
