@@ -17,5 +17,21 @@ function shuffle(array) {
     return array;
 }
 
+function createComp(type, cls = ""){
+    const element = document.createElement(type);
+    if (cls !== ""){
+        element.classList.add(cls);
+    }
+    return element;
+}
 
-export default shuffle;
+function selectComp(selector){
+    return document.querySelector(selector);
+}
+
+
+export {
+    shuffle,
+    createComp,
+    selectComp
+};
