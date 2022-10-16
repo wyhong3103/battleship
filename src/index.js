@@ -5,10 +5,12 @@ import Display from "./display";
 const Controller = (() => {
     const player1 = Player();
     // const computer = Player();
-    let lifting = -1;
     
     // Variable for preparation stage
     const stocks = [2, 3, 3, 4, 5];
+    let lifting = -1;
+    let clicks = 0;
+    let timer = null;
 
     function setLift(){
         const cells = selectComps(".cell");
@@ -67,15 +69,50 @@ const Controller = (() => {
         for(let i = 0 ; i < cells.length; i++){
             // eslint-disable-next-line no-loop-func
             cells[i].addEventListener("click", () => {
-                if (player1.gameboard.shipAt(Math.floor(i/10), i % 10) !== -1){
-                    // unset this ship, start lifting
-                    lifting = player1.gameboard.shipAt(Math.floor(i/10), i % 10);
-                    player1.gameboard.unplaceShip(player1.gameboard.shipAt(Math.floor(i/10), i % 10));
-                    Display.paintBoard(player1.gameboard);
-                    // clearEvtLs(".cell");
-                    setLift();
+                
+                const rotate = () => {
+                    if (player1.gameboard.shipAt(Math.floor(i/10), i % 10) !== -1){
+                        const shipID = player1.gameboard.shipAt(Math.floor(i/10), i %10);
+                        const ship = player1.gameboard.getShip(shipID);
+                        player1.gameboard.unplaceShip(shipID);
+                        if (player1.gameboard.isValidPlacement(ship.shipLength, ship.getHead()[0], ship.getHead()[1], !ship.getHor())){
+                            player1.gameboard.placeShip(ship.shipLength, ship.getHead()[0], ship.getHead()[1], !ship.getHor(), shipID);
+                            Display.paintBoard(player1.gameboard);
+                            setPrep();
+                        }else{
+                            player1.gameboard.placeShip(ship.shipLength, ship.getHead()[0], ship.getHead()[1], ship.getHor(), shipID);
+                        }
+                    }
                 }
-            })
+
+                const lift = () => {
+                    if (player1.gameboard.shipAt(Math.floor(i/10), i % 10) !== -1){
+                        // unset this ship, start lifting
+                        lifting = player1.gameboard.shipAt(Math.floor(i/10), i % 10);
+                        player1.gameboard.unplaceShip(player1.gameboard.shipAt(Math.floor(i/10), i % 10));
+                        Display.paintBoard(player1.gameboard);
+                        // clearEvtLs(".cell");
+                        setLift();
+                    }
+                }
+
+                clicks += 1;
+
+                if (clicks === 1){
+                    timer = setTimeout(
+                        () => {
+                            lift();
+                            clicks = 0;
+                        },
+                        300
+                    )
+                }else{
+                    clearTimeout(timer);
+                    rotate();
+                    clicks = 0;
+                }
+            });
+
         }
     }
 
@@ -83,7 +120,6 @@ const Controller = (() => {
         Display.prepPage();
         Display.paintStock(stocks);
         player1.gameboard.placeShip(3, 0, 0, true);
-        player1.gameboard.placeShip(3, 2, 0, true);
         Display.paintBoard(player1.gameboard);
         setPrep();
     }
