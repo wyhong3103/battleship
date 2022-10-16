@@ -88,7 +88,15 @@ describe("placeShip test", () => {
 
 describe("place & unplace a ship test", () => {
     test("Place at {0,0} & Unplace it", () => {
-
+        const gameboard = Gameboard();
+        gameboard.placeShip(2, 0, 0, true);
+        expect(gameboard.shipAt(0, 0).shipLength).toBe(2);
+        expect(gameboard.shipAt(0, 1).shipLength).toBe(2);
+        expect(gameboard.shipAt(0, 2)).toBe(-1);
+        gameboard.unplaceShip(0);
+        expect(gameboard.shipAt(0, 0)).toBe(-1);
+        expect(gameboard.shipAt(0, 1)).toBe(-1);
+        expect(gameboard.shipAt(0, 2)).toBe(-1);
     });
 });
 
