@@ -16,16 +16,16 @@ function generateRandomShip(){
     return ret;
 }
 
-describe("shipLengthAt" ,() => {
+describe("Locating a ship and test its func" ,() => {
     test("Retrieve ship length at {0,0}", () => {
         const gameboard = Gameboard();
         gameboard.placeShip(4, 0, 0, true);
-        expect(gameboard.shipLengthAt(0,0)).toBe(4);
+        expect(gameboard.shipAt(0,0).shipLength).toBe(4);
     });
 
     test("Retrieve an empty ship length at {0,0}", () => {
         const gameboard = Gameboard();
-        expect(gameboard.shipLengthAt(0,0)).toBe(-1);
+        expect(gameboard.shipAt(0,0)).toBe(-1);
     });
 });
 
@@ -83,6 +83,12 @@ describe("placeShip test", () => {
             const gameBoard = Gameboard();
             expect(gameBoard.placeShip(ship[0], ship[1], ship[2], ship[3])).toBe(true);
         }
+    });
+});
+
+describe("place & unplace a ship test", () => {
+    test("Place at {0,0} & Unplace it", () => {
+
     });
 });
 
