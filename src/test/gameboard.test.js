@@ -16,11 +16,11 @@ function generateRandomShip(){
     return ret;
 }
 
-describe("Locating a ship and test its func" ,() => {
+describe("Locating a ship" ,() => {
     test("Retrieve ship length at {0,0}", () => {
         const gameboard = Gameboard();
         gameboard.placeShip(4, 0, 0, true);
-        expect(gameboard.shipAt(0,0).shipLength).toBe(4);
+        expect(gameboard.getShip(gameboard.shipAt(0,0)).shipLength).toBe(4);
     });
 
     test("Retrieve an empty ship length at {0,0}", () => {
@@ -90,8 +90,8 @@ describe("place & unplace & replace test", () => {
     test("Place at {0,0} & Unplace it", () => {
         const gameboard = Gameboard();
         gameboard.placeShip(2, 0, 0, true);
-        expect(gameboard.shipAt(0, 0).shipLength).toBe(2);
-        expect(gameboard.shipAt(0, 1).shipLength).toBe(2);
+        expect(gameboard.getShip(gameboard.shipAt(0, 0)).shipLength).toBe(2);
+        expect(gameboard.getShip(gameboard.shipAt(0, 1)).shipLength).toBe(2);
         expect(gameboard.shipAt(0, 2)).toBe(-1);
         gameboard.unplaceShip(0);
         expect(gameboard.shipAt(0, 0)).toBe(-1);
@@ -102,16 +102,16 @@ describe("place & unplace & replace test", () => {
     test("Place at {0,0} & Unplace it & Replace it at {1, 0}", () => {
         const gameboard = Gameboard();
         gameboard.placeShip(2, 0, 0, true);
-        expect(gameboard.shipAt(0, 0).shipLength).toBe(2);
-        expect(gameboard.shipAt(0, 1).shipLength).toBe(2);
+        expect(gameboard.getShip(gameboard.shipAt(0, 0)).shipLength).toBe(2);
+        expect(gameboard.getShip(gameboard.shipAt(0, 1)).shipLength).toBe(2);
         expect(gameboard.shipAt(0, 2)).toBe(-1);
         gameboard.unplaceShip(0);
         expect(gameboard.shipAt(0, 0)).toBe(-1);
         expect(gameboard.shipAt(0, 1)).toBe(-1);
         expect(gameboard.shipAt(0, 2)).toBe(-1);
         gameboard.placeShip(2, 1, 0, true, 0);
-        expect(gameboard.shipAt(1, 0).shipLength).toBe(2);
-        expect(gameboard.shipAt(1, 1).shipLength).toBe(2);
+        expect(gameboard.getShip(gameboard.shipAt(1, 0)).shipLength).toBe(2);
+        expect(gameboard.getShip(gameboard.shipAt(1, 1)).shipLength).toBe(2);
     });
 });
 
