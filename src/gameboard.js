@@ -94,9 +94,10 @@ const Gameboard = (() => {
     }
 
     function unplaceShip(id){
-        const [row,col] = ships[id].getHead;
+        const row = ships[id].getHead()[0];
+        const col = ships[id].getHead()[1];
         const length = ships[id].shipLength;
-        const isHorizontal = ships[id].getHor;
+        const isHorizontal = ships[id].getHor();
 
         if (isHorizontal){
             for(let i = col; i < col+length; i++){
