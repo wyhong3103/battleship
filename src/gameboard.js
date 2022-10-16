@@ -80,15 +80,25 @@ const Gameboard = (() => {
         return valid;
     }
 
+    function isValidPlacement(length, row, col, isHorizontal){
+        if (isHorizontal && !isInvalidShip(row, col, row, col+length-1) && isEmpty(row, col, row, col+length-1)){
+            return true;
+        }
+        if (!isHorizontal && !isInvalidShip(row, col, row+length-1, col) && isEmpty(row, col, row+length-1, col)){
+            return true;
+        }
+        return false;
+    }
+
     function placeShip(length, row, col, isHorizontal){
         const shipID = ships.length;
-        if (isHorizontal && !isInvalidShip(row, col, row, col+length-1) && isEmpty(row, col, row, col+length-1)){
+        if (isHorizontal && isValidPlacement(length, row, col, isHorizontal)){
             for(let i = col; i < col+length; i++){
                 grid[row][i] = shipID;
             }        
             ships.push(Ship(length));
         }
-        else if (!isHorizontal && !isInvalidShip(row, col, row+length-1, col) && isEmpty(row, col, row+length-1, col)){
+        else if (!isHorizontal && isValidPlacement(length, row, col, isHorizontal)){
             for(let i = row; i < row+length; i++){
                 grid[i][col] = shipID;
             }        
@@ -130,7 +140,8 @@ const Gameboard = (() => {
     return{
         placeShip,
         receiveAttack,
-        isGameOver
+        isGameOver,
+        isValidPlacement
     }
 });
 
