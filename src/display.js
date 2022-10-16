@@ -32,7 +32,7 @@ const Display = (() => {
             }
             for(let j = col; j < col+remain[i]; j++){
                 cells[(row*10) + j].classList.add(`block${remain[i]}`);
-                if (j === col) cells[(row*10) + j].style["border-left"] = "1px solid black";
+                if (j === col) cells[(row*10) + j].classList.add("cell-remain-left");
             }
             col += remain[i];
         }
@@ -44,8 +44,8 @@ const Display = (() => {
 
         for(let i = 0; i < 10; i++){
             for(let j = 0; j < 10; j++){
-                if (gameboard.shipLengthAt(i,j) !== -1){
-                    cells[(i*10)+j].classList.add(`block${gameboard.shipLengthAt(i, j)}`);
+                if (gameboard.shipAt(i,j) !== -1){
+                    cells[(i*10)+j].classList.add(`block${gameboard.getShip(gameboard.shipAt(i, j)).shipLength}`);
                 }
             }
         }
