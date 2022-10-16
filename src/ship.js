@@ -1,6 +1,7 @@
 const Ship = ((shipLength, head, isHorizontal) => {
 
     let totalHits = 0;
+    // shipHead is an array of [x,y]
     let shipHead = head;
     let isHor = isHorizontal;
 
@@ -12,16 +13,16 @@ const Ship = ((shipLength, head, isHorizontal) => {
         return totalHits === shipLength;
     }
 
-    function setHead(head){
-        shipHead = head;
+    function setHead(newHead){
+        shipHead = newHead;
     }
 
     function getHead(){
         return shipHead
     }
 
-    function setHor(isHorizontal){
-        isHor = isHorizontal;
+    function setHor(isHori){
+        isHor = isHori;
     }
 
     function getHor(){
