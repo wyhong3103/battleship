@@ -16,6 +16,14 @@ function generateRandomShip(){
     return ret;
 }
 
+describe("shipLengthAt" ,() => {
+    test("Retrieve ship length at {0,0}", () => {
+        const gameboard = Gameboard();
+        gameboard.placeShip(4, 0, 0, true);
+        expect(gameboard.shipLengthAt(0,0)).toBe(4);
+    });
+});
+
 describe("placeShip test", () => {
     test("Placing a ship at {0,0} to {0,3}", () => {
         const gameBoard = Gameboard();

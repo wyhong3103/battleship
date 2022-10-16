@@ -1,5 +1,10 @@
 import Ship from "../ship";
 
+test("Able to retrieve the length", () => {
+    const ship = Ship(4);
+    expect(ship.shipLength).toBe(4);
+});
+
 test("A ship with length 1 should sunk with one hit", () => {
     const ship = Ship(1);
     ship.hit();
