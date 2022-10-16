@@ -112,7 +112,7 @@ const Gameboard = (() => {
     }
 
     function placeShip(length, row, col, isHorizontal, id = -1){
-        const shipID = ships.length;
+        const shipID = (id === -1 ? ships.length : id);
         if (isHorizontal && isValidPlacement(length, row, col, isHorizontal)){
             for(let i = col; i < col+length; i++){
                 grid[row][i] = shipID;
