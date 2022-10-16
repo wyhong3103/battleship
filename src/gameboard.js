@@ -66,7 +66,7 @@ const Gameboard = (() => {
     }
 
     function shipLengthAt(row, col){
-        return ships[grid[row][col]].shipLength;
+        return (grid[row][col] !== -1 ? ships[grid[row][col]].shipLength : -1);
     }
 
     function isEmpty(fromRow, fromCol, toRow, toCol){
