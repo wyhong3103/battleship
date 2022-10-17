@@ -3,10 +3,32 @@ import { createComp, selectComp, selectComps } from "./util";
 const Display = (() => {
     const content = selectComp("#content");
 
+    function hideBg(){
+        const bgContainer = createComp("div", "hide-bg");
+        content.appendChild(bgContainer);
+    }
+
+    function displayMsg(message){
+        hideBg();
+        const msgContainer = createComp("div", "msg-container");
+        const msgBox = createComp("div", "msg-box");
+
+        const msg = createComp("h3", "msg");
+        msg.textContent = message;
+
+        const okBtn = createComp("button", "ok-btn");
+        okBtn.textContent = "OK!";
+        msgBox.appendChild(msg);
+        msgBox.appendChild(okBtn);
+
+        msgContainer.appendChild(msgBox);
+        content.appendChild(msgContainer);
+    }
+
     function allowStart(){
         const prepRight = selectComp(".prep-right");
         prepRight.innerHTML = "";
-        const startBtn = createComp("button", "start");
+        const startBtn = createComp("button", "start-btn");
         startBtn.textContent = "START";
         prepRight.appendChild(startBtn);
     }
@@ -59,23 +81,6 @@ const Display = (() => {
         }
     }
 
-    function paintHit(ship, at, hitType, grid = -1){
-        let selector = "";
-        if (grid === 1) selector = ".player-grid";
-        else if (grid === 2) selector = ".opp-grid";
-        else selector = ".grid";
-        const cells = selectComps(`${selector} .cell`);
-
-        if (hitType === 1){
-            cells[at].textContent = "·";
-        }else if (hitType >= 2){
-            cells[at].textContent = "X";
-        }
-        if (hitType === 3){
-            sunkShip(ship.shipLength, (ship.getHead()[0]*10) + ship.getHead()[1], ship.getHor(), grid);
-        }
-    }
-
     function sunkShip(length, at, isHorizontal, grid = -1){
         let selector = "";
         if (grid === 1) selector = ".player-grid";
@@ -91,6 +96,24 @@ const Display = (() => {
             for(let j = 0; j < length; j++){
                 cells[at+(j*10)].classList.add(`block${length}`);
             }        
+        }
+    }
+
+
+    function paintHit(ship, at, hitType, grid = -1){
+        let selector = "";
+        if (grid === 1) selector = ".player-grid";
+        else if (grid === 2) selector = ".opp-grid";
+        else selector = ".grid";
+        const cells = selectComps(`${selector} .cell`);
+
+        if (hitType === 1){
+            cells[at].textContent = "·";
+        }else if (hitType >= 2){
+            cells[at].textContent = "X";
+        }
+        if (hitType === 3){
+            sunkShip(ship.shipLength, (ship.getHead()[0]*10) + ship.getHead()[1], ship.getHor(), grid);
         }
     }
 
@@ -205,11 +228,21 @@ const Display = (() => {
             const cell = createComp("div", "cell");
             oppGrid.appendChild(cell);
         }
+        gridContainer.appendChild(playerGrid);
+        gridContainer.appendChild(oppGrid);
+
+        const gameBtnContainer = createComp("div", "game-btn-container");
+        const restartBtn = createComp("button", "restart-btn");
+        const exitBtn = createComp("button", "exit-btn");
+        restartBtn.textContent = "RESTART";
+        exitBtn.textContent = "EXIT";
+
+        gameBtnContainer.appendChild(restartBtn);
+        gameBtnContainer.appendChild(exitBtn);
 
         main.appendChild(title);
         main.appendChild(gridContainer);
-        gridContainer.appendChild(playerGrid);
-        gridContainer.appendChild(oppGrid);
+        main.appendChild(gameBtnContainer);
         content.appendChild(main);
     }
 
@@ -221,7 +254,8 @@ const Display = (() => {
         allowStart,
         addCurrent,
         battlePage,
-        paintHit
+        paintHit,
+        displayMsg
     }
 
 })();
