@@ -21,6 +21,15 @@ const Display = (() => {
         }
     }
 
+    function resetCurrent(){
+        const current = selectComp(".current");
+        current.innerHTML = "";
+        for(let i = 0; i < 5; i++){
+            const cell = createComp("div", "cell-current");
+            current.appendChild(cell);
+        }
+    }
+
     function paintStock(remain){
         resetStockCells();
         const cells = selectComps(".remaining .cell-remain");
@@ -35,6 +44,14 @@ const Display = (() => {
                 if (j === col) cells[(row*10) + j].classList.add("cell-remain-left");
             }
             col += remain[i];
+        }
+    }
+
+    function paintCurrent(length){
+        resetCurrent();
+        const cells = selectComp(".cell-current");
+        for(let i = 0; i < length; i++){
+            cells.classList.add(`block${length}`);
         }
     }
 
@@ -78,10 +95,30 @@ const Display = (() => {
             remaining.appendChild(cell);
         }
 
+        const currentContainer = createComp("div", "current-container");
+        const currentText = createComp("h3", "current-text");
+        currentText.textContent = "CURRENT SHIP";
+
+        const current = createComp("div", "current");
+        for(let i = 0; i < 5; i++){
+            const cell = createComp("div", "cell-current");
+            current.appendChild(cell);
+        }
+
+        const doneBtn = createComp("button", "done-btn");
+        const doneImg = createComp("img", "done-svg");
+        doneImg.src = "./assets/tick.svg";
+        doneBtn.appendChild(doneImg);
+
+        currentContainer.appendChild(currentText);
+        currentContainer.appendChild(current);
+        currentContainer.appendChild(doneBtn);
+
         const startBtn = createComp("button", "start");
         startBtn.textContent = "START";
 
         prepRight.appendChild(remaining);
+        prepRight.appendChild(currentContainer);
         prepRight.appendChild(startBtn);
 
         prepContainer.appendChild(prepLeft);
@@ -95,7 +132,8 @@ const Display = (() => {
     return {
         prepPage,
         paintStock,
-        paintBoard
+        paintBoard,
+        paintCurrent
     }
 
 })();
