@@ -29,6 +29,18 @@ describe("Locating a ship" ,() => {
     });
 });
 
+describe("restart board test", () => {
+    test("Destroy {0,0}, and restart it", () => {
+        const gameboard = Gameboard();
+        gameboard.placeShip(2, 0, 0, true);
+        expect(gameboard.receiveAttack(0, 0)).toBe(2);
+        expect(gameboard.receiveAttack(0, 0)).toBe(-1);
+        gameboard.restartBoard();
+        expect(gameboard.receiveAttack(0, 0)).toBe(2);
+        expect(gameboard.receiveAttack(0, 0)).toBe(-1);
+    });
+});
+
 describe("placeShip test", () => {
     test("Placing a ship at {0,0} to {0,3}", () => {
         const gameBoard = Gameboard();
