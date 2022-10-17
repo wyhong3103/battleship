@@ -1,10 +1,10 @@
-import { selectComp, selectComps} from "./util";
+import { selectComp, selectComps, clearEvtLs} from "./util";
 import Player from "./player";
 import Display from "./display";
 
 const Controller = (() => {
-    const player = Player();
-    const opp = Player();
+    let player = null;
+    let opp = null;
     
     /*
 
@@ -13,7 +13,7 @@ const Controller = (() => {
     */
 
     // Variable for preparation stage
-    const stocks = [2, 3, 3, 4, 5];
+    let stocks = [];
     let lifting = -1;
     let clicks = 0;
     let timer = null;
@@ -98,7 +98,6 @@ const Controller = (() => {
                         lifting = player.gameboard.shipAt(Math.floor(i/10), i % 10);
                         player.gameboard.unplaceShip(player.gameboard.shipAt(Math.floor(i/10), i % 10));
                         Display.paintBoard(player.gameboard);
-                        // clearEvtLs(".cell");
                         setLift();
                     }
                 }
@@ -123,6 +122,13 @@ const Controller = (() => {
         }
     }
 
+    function setStartBtn(){
+        const startBtn = selectComp(".start-btn");
+        startBtn.addEventListener("click", () => {
+            initBattle();
+        })
+    }
+
     function setCurrent(){
         const doneBtn = selectComp(".done-btn");
         doneBtn.addEventListener("click", ()=>{
@@ -133,9 +139,12 @@ const Controller = (() => {
                 stocks.pop();
                 Display.paintCurrent(currentLength);
                 Display.paintStock(stocks);
+                // setPrep might get trigger, we need to clear it!
+                clearEvtLs(".grid .cell", true);
                 setLift();
             }else if (stocks.length === 0){
                 Display.allowStart();
+                setStartBtn();
             }
         });
     }
@@ -156,6 +165,9 @@ const Controller = (() => {
     }
 
     function initPrep(){
+        player = Player();
+        opp = Player();
+        stocks = [2, 3, 3, 4, 5];
         Display.prepPage();
         Display.paintStock(stocks);
         Display.paintBoard(player.gameboard);
@@ -169,6 +181,22 @@ const Controller = (() => {
     */
    let turn = 0;
 
+   function setMsg(){
+        const okBtn = selectComp(".ok-btn");
+        okBtn.addEventListener("click", () => {
+            const content = selectComp("#content");
+            content.removeChild(content.lastChild);
+            content.removeChild(content.lastChild);
+        });
+   }
+
+    function endGame(winner){
+        clearEvtLs(".player-grid .cell", true);
+        clearEvtLs(".opp-grid .cell", true);
+        Display.displayMsg(`${winner === 1 ? "Player" : "AI"} have won the game! Press restart if you wish to restart the game with current setting. Otherwise, exit.`);
+        setMsg();
+    }
+
     function oppAttackCell(){
         const res = opp.randomAttack(player.gameboard);
         if (res[2] === 1) {
@@ -177,6 +205,9 @@ const Controller = (() => {
             Display.paintHit(player.gameboard.getShip(player.gameboard.shipAt(res[0],res[1])), (res[0]*10)+res[1], res[2], 1);
         }
         turn = 0;
+        if (player.gameboard.isGameOver()){
+            endGame(0);
+        }
     }
 
     function setBattleCells(){
@@ -193,6 +224,9 @@ const Controller = (() => {
                             Display.paintHit(opp.gameboard.getShip(opp.gameboard.shipAt(Math.floor(i/10), i % 10)), i, result, 2);
                         }
                         turn = 1;
+                        if (opp.gameboard.isGameOver()){
+                            endGame(1);
+                        }
                         oppAttackCell();
                     }
                 }
@@ -200,17 +234,38 @@ const Controller = (() => {
         }
     }
 
-    function initBattle(){
+   function restartGame(){
+        player.gameboard.restartBoard();
+        opp = Player();
         Display.battlePage();
-        player.generateRandomShip();
         opp.generateRandomShip();
         Display.paintBoard(player.gameboard, 1);
-        // Display.paintBoard(opp.gameboard, 2);
         setBattleCells();
+        setGameBtns();
+   }
+
+
+   function setGameBtns(){
+        const restartBtn = selectComp(".restart-btn");
+        restartBtn.addEventListener("click", () => {
+            restartGame();
+        });
+        const exitBtn = selectComp(".exit-btn");
+        exitBtn.addEventListener("click", () => {
+            initPrep();
+        });
+   }
+
+    function initBattle(){
+        Display.battlePage();
+        opp.generateRandomShip();
+        Display.paintBoard(player.gameboard, 1);
+        setBattleCells();
+        setGameBtns();
     }
 
     function init(){
-        initBattle();
+        initPrep();
     }
 
     return{
