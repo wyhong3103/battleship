@@ -157,14 +157,24 @@ const Display = (() => {
         const title = createComp("h1", "title");
         title.textContent = "BATTLESHIP";
 
+        const gridContainer = createComp("div", "grid-container");
+
         const playerGrid = createComp("div", "player-grid");
         for(let i = 0; i < 100; i++){
             const cell = createComp("div", "cell");
             playerGrid.appendChild(cell);
         }
 
+        const oppGrid = createComp("div", "opp-grid");
+        for(let i = 0; i < 100; i++){
+            const cell = createComp("div", "cell");
+            oppGrid.appendChild(cell);
+        }
+
         main.appendChild(title);
-        main.appendChild(playerGrid);
+        main.appendChild(gridContainer);
+        gridContainer.appendChild(playerGrid);
+        gridContainer.appendChild(oppGrid);
         content.appendChild(main);
     }
 
