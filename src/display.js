@@ -59,6 +59,41 @@ const Display = (() => {
         }
     }
 
+    function paintHit(ship, at, hitType, grid = -1){
+        let selector = "";
+        if (grid === 1) selector = ".player-grid";
+        else if (grid === 2) selector = ".opp-grid";
+        else selector = ".grid";
+        const cells = selectComps(`${selector} .cell`);
+
+        if (hitType === 1){
+            cells[at].textContent = "·";
+        }else if (hitType >= 2){
+            cells[at].textContent = "X";
+        }
+        if (hitType === 3){
+            sunkShip(ship.shipLength, (ship.getHead()[0]*10) + ship.getHead()[1], ship.getHor(), grid);
+        }
+    }
+
+    function sunkShip(length, at, isHorizontal, grid = -1){
+        let selector = "";
+        if (grid === 1) selector = ".player-grid";
+        else if (grid === 2) selector = ".opp-grid";
+        else selector = ".grid";
+        const cells = selectComps(`${selector} .cell`);
+
+        if (isHorizontal){
+            for(let j = 0; j < length; j++){
+                cells[at+j].classList.add(`block${length}`);
+            }        
+        }else{
+            for(let j = 0; j < length; j++){
+                cells[at+(j*10)].classList.add(`block${length}`);
+            }        
+        }
+    }
+
     function paintCurrent(length){
         resetCurrent();
         const cells = selectComps(".cell-current");
@@ -185,7 +220,8 @@ const Display = (() => {
         paintCurrent,
         allowStart,
         addCurrent,
-        battlePage
+        battlePage,
+        paintHit
     }
 
 })();
