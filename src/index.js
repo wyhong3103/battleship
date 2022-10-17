@@ -3,8 +3,8 @@ import Player from "./player";
 import Display from "./display";
 
 const Controller = (() => {
-    const player1 = Player();
-    // const computer = Player();
+    const player = Player();
+    const computer = Player();
     
     // Variable for preparation stage
     const stocks = [2, 3, 3, 4, 5];
@@ -18,10 +18,10 @@ const Controller = (() => {
         for(let i = 0 ; i < cells.length; i++){
             // eslint-disable-next-line no-loop-func
             cells[i].addEventListener("mouseover", () => {
-                const ship = player1.gameboard.getShip(lifting);
-                if (player1.gameboard.shipAt(Math.floor(i/10), i % 10) === -1 && 
-                    player1.gameboard.isValidPlacement(ship.shipLength, Math.floor(i/10), i%10, ship.getHor())){
-                    player1.gameboard.placeShip(ship.shipLength, Math.floor(i/10), i%10, ship.getHor(), lifting);
+                const ship = player.gameboard.getShip(lifting);
+                if (player.gameboard.shipAt(Math.floor(i/10), i % 10) === -1 && 
+                    player.gameboard.isValidPlacement(ship.shipLength, Math.floor(i/10), i%10, ship.getHor())){
+                    player.gameboard.placeShip(ship.shipLength, Math.floor(i/10), i%10, ship.getHor(), lifting);
                     if (ship.getHor()){
                         for(let j = 0; j < ship.shipLength; j++){
                             cells[i+j].classList.add(`block${ship.shipLength}`);
@@ -36,9 +36,9 @@ const Controller = (() => {
             })
             // eslint-disable-next-line no-loop-func
             cells[i].addEventListener("mouseout", () => {
-                const ship = player1.gameboard.getShip(lifting);
-                if (player1.gameboard.shipAt(Math.floor(i/10), i % 10) === lifting){
-                    player1.gameboard.unplaceShip(lifting);
+                const ship = player.gameboard.getShip(lifting);
+                if (player.gameboard.shipAt(Math.floor(i/10), i % 10) === lifting){
+                    player.gameboard.unplaceShip(lifting);
                     if (ship.getHor()){
                         for(let j = 0; j < ship.shipLength; j++){
                             cells[i+j].classList.remove(`block${ship.shipLength}`);
@@ -54,9 +54,9 @@ const Controller = (() => {
 
             // eslint-disable-next-line no-loop-func
             cells[i].addEventListener("click", () => {
-                if (player1.gameboard.shipAt(Math.floor(i/10), i % 10) === lifting){
+                if (player.gameboard.shipAt(Math.floor(i/10), i % 10) === lifting){
                     lifting = -1;
-                    Display.paintBoard(player1.gameboard);
+                    Display.paintBoard(player.gameboard);
                     // eslint-disable-next-line no-use-before-define
                     setPrep();
                 }
@@ -72,26 +72,26 @@ const Controller = (() => {
             cells[i].addEventListener("click", () => {
                 
                 const rotate = () => {
-                    if (player1.gameboard.shipAt(Math.floor(i/10), i % 10) !== -1){
-                        const shipID = player1.gameboard.shipAt(Math.floor(i/10), i %10);
-                        const ship = player1.gameboard.getShip(shipID);
-                        player1.gameboard.unplaceShip(shipID);
-                        if (player1.gameboard.isValidPlacement(ship.shipLength, ship.getHead()[0], ship.getHead()[1], !ship.getHor())){
-                            player1.gameboard.placeShip(ship.shipLength, ship.getHead()[0], ship.getHead()[1], !ship.getHor(), shipID);
-                            Display.paintBoard(player1.gameboard);
+                    if (player.gameboard.shipAt(Math.floor(i/10), i % 10) !== -1){
+                        const shipID = player.gameboard.shipAt(Math.floor(i/10), i %10);
+                        const ship = player.gameboard.getShip(shipID);
+                        player.gameboard.unplaceShip(shipID);
+                        if (player.gameboard.isValidPlacement(ship.shipLength, ship.getHead()[0], ship.getHead()[1], !ship.getHor())){
+                            player.gameboard.placeShip(ship.shipLength, ship.getHead()[0], ship.getHead()[1], !ship.getHor(), shipID);
+                            Display.paintBoard(player.gameboard);
                             setPrep();
                         }else{
-                            player1.gameboard.placeShip(ship.shipLength, ship.getHead()[0], ship.getHead()[1], ship.getHor(), shipID);
+                            player.gameboard.placeShip(ship.shipLength, ship.getHead()[0], ship.getHead()[1], ship.getHor(), shipID);
                         }
                     }
                 }
 
                 const lift = () => {
-                    if (player1.gameboard.shipAt(Math.floor(i/10), i % 10) !== -1){
+                    if (player.gameboard.shipAt(Math.floor(i/10), i % 10) !== -1){
                         // unset this ship, start lifting
-                        lifting = player1.gameboard.shipAt(Math.floor(i/10), i % 10);
-                        player1.gameboard.unplaceShip(player1.gameboard.shipAt(Math.floor(i/10), i % 10));
-                        Display.paintBoard(player1.gameboard);
+                        lifting = player.gameboard.shipAt(Math.floor(i/10), i % 10);
+                        player.gameboard.unplaceShip(player.gameboard.shipAt(Math.floor(i/10), i % 10));
+                        Display.paintBoard(player.gameboard);
                         // clearEvtLs(".cell");
                         setLift();
                     }
@@ -123,7 +123,7 @@ const Controller = (() => {
             if (lifting === -1 && stocks.length > 0){
                 lifting = 5-stocks.length;
                 const currentLength = stocks[stocks.length-1];
-                player1.gameboard.newShip(currentLength);
+                player.gameboard.newShip(currentLength);
                 stocks.pop();
                 Display.paintCurrent(currentLength);
                 Display.paintStock(stocks);
@@ -141,7 +141,7 @@ const Controller = (() => {
             setCurrent();
             lifting = 0;
             const currentLength = 5;
-            player1.gameboard.newShip(currentLength);
+            player.gameboard.newShip(currentLength);
             stocks.pop();
             Display.paintCurrent(currentLength);
             Display.paintStock(stocks);
@@ -152,12 +152,20 @@ const Controller = (() => {
     function initPrep(){
         Display.prepPage();
         Display.paintStock(stocks);
-        Display.paintBoard(player1.gameboard);
+        Display.paintBoard(player.gameboard);
         setStartUp();
     }
 
+    function initBattle(){
+        Display.battlePage();
+        player.generateRandomShip();
+        computer.generateRandomShip();
+        Display.paintBoard(player.gameboard, 1);
+        Display.paintBoard(computer.gameboard, 2);
+    }
+
     function init(){
-        initPrep();
+        initBattle();
     }
 
     return{
