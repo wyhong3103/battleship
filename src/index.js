@@ -1,4 +1,4 @@
-import { selectComps} from "./util";
+import { selectComp, selectComps} from "./util";
 import Player from "./player";
 import Display from "./display";
 
@@ -11,6 +11,7 @@ const Controller = (() => {
     let lifting = -1;
     let clicks = 0;
     let timer = null;
+
 
     function setLift(){
         const cells = selectComps(".cell");
@@ -116,12 +117,46 @@ const Controller = (() => {
         }
     }
 
+    function setUpFirst(){
+    }
+
+    function setCurrent(){
+        const doneBtn = selectComp(".done-btn");
+        doneBtn.addEventListener("click", ()=>{
+            if (lifting === -1 && stocks.length > 0){
+                lifting = 5-stocks.length;
+                const currentLength = stocks[stocks.length-1];
+                player1.gameboard.newShip(currentLength);
+                stocks.pop();
+                Display.paintCurrent(currentLength);
+                Display.paintStock(stocks);
+                setLift();
+            }else if (stocks.length === 0){
+                Display.allowStart();
+            }
+        });
+    }
+
+    function setStartUp(){
+        const readyBtn = selectComp(".ready-btn");
+        readyBtn.addEventListener("click", () => {
+            Display.addCurrent();
+            setCurrent();
+            lifting = 0;
+            const currentLength = 5;
+            player1.gameboard.newShip(currentLength);
+            stocks.pop();
+            Display.paintCurrent(currentLength);
+            Display.paintStock(stocks);
+            setLift();
+        })
+    }
+
     function initPrep(){
         Display.prepPage();
         Display.paintStock(stocks);
-        player1.gameboard.placeShip(3, 0, 0, true);
         Display.paintBoard(player1.gameboard);
-        setPrep();
+        setStartUp();
     }
 
     function init(){
