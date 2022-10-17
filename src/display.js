@@ -3,6 +3,14 @@ import { createComp, selectComp, selectComps } from "./util";
 const Display = (() => {
     const content = selectComp("#content");
 
+    function allowStart(){
+        const prepRight = selectComp(".prep-right");
+        prepRight.innerHTML = "";
+        const startBtn = createComp("button", "start");
+        startBtn.textContent = "START";
+        prepRight.appendChild(startBtn);
+    }
+
     function resetGridCells(){
         const grid = selectComp(".grid");
         grid.innerHTML = "";
@@ -24,7 +32,7 @@ const Display = (() => {
     function resetCurrent(){
         const current = selectComp(".current");
         current.innerHTML = "";
-        for(let i = 0; i < 5; i++){
+        for(let i = 0; i < 6; i++){
             const cell = createComp("div", "cell-current");
             current.appendChild(cell);
         }
@@ -49,9 +57,9 @@ const Display = (() => {
 
     function paintCurrent(length){
         resetCurrent();
-        const cells = selectComp(".cell-current");
+        const cells = selectComps(".cell-current");
         for(let i = 0; i < length; i++){
-            cells.classList.add(`block${length}`);
+            cells[i].classList.add(`block${length}`);
         }
     }
 
@@ -66,7 +74,31 @@ const Display = (() => {
                 }
             }
         }
+    }
 
+    function addCurrent(){
+        const prepRight = selectComp(".prep-right");
+        prepRight.removeChild(prepRight.lastChild);
+
+        const currentContainer = createComp("div", "current-container");
+        const currentText = createComp("h3", "current-text");
+        currentText.textContent = "CURRENT SHIP";
+
+        const current = createComp("div", "current");
+        for(let i = 0; i < 6; i++){
+            const cell = createComp("div", "cell-current");
+            current.appendChild(cell);
+        }
+
+        const doneBtn = createComp("button", "done-btn");
+        const doneImg = createComp("img", "done-svg");
+        doneImg.src = "./assets/tick.svg";
+        doneBtn.appendChild(doneImg);
+
+        currentContainer.appendChild(currentText);
+        currentContainer.appendChild(current);
+        currentContainer.appendChild(doneBtn);
+        prepRight.appendChild(currentContainer);
     }
 
 
@@ -95,31 +127,11 @@ const Display = (() => {
             remaining.appendChild(cell);
         }
 
-        const currentContainer = createComp("div", "current-container");
-        const currentText = createComp("h3", "current-text");
-        currentText.textContent = "CURRENT SHIP";
-
-        const current = createComp("div", "current");
-        for(let i = 0; i < 5; i++){
-            const cell = createComp("div", "cell-current");
-            current.appendChild(cell);
-        }
-
-        const doneBtn = createComp("button", "done-btn");
-        const doneImg = createComp("img", "done-svg");
-        doneImg.src = "./assets/tick.svg";
-        doneBtn.appendChild(doneImg);
-
-        currentContainer.appendChild(currentText);
-        currentContainer.appendChild(current);
-        currentContainer.appendChild(doneBtn);
-
-        const startBtn = createComp("button", "start");
-        startBtn.textContent = "START";
+        const readyBtn = createComp("button", "ready-btn");
+        readyBtn.textContent = "READY";
 
         prepRight.appendChild(remaining);
-        prepRight.appendChild(currentContainer);
-        prepRight.appendChild(startBtn);
+        prepRight.appendChild(readyBtn);
 
         prepContainer.appendChild(prepLeft);
         prepContainer.appendChild(prepRight);
@@ -133,7 +145,9 @@ const Display = (() => {
         prepPage,
         paintStock,
         paintBoard,
-        paintCurrent
+        paintCurrent,
+        allowStart,
+        addCurrent
     }
 
 })();
