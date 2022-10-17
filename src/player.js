@@ -114,7 +114,7 @@ const Player = (() => {
                         }
                         if (res[2] >= 2) found[1][1] += 1;
                     }
-                }else if (found[1][0] === found[1][1]){
+                }else if (found[0][1] === found[1][1]){
                     // Try left first
                     res = [
                         found[0][0],
