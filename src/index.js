@@ -4,8 +4,14 @@ import Display from "./display";
 
 const Controller = (() => {
     const player = Player();
-    const computer = Player();
+    const opp = Player();
     
+    /*
+
+        PREP FUNCS & VARIABLES
+
+    */
+
     // Variable for preparation stage
     const stocks = [2, 3, 3, 4, 5];
     let lifting = -1;
@@ -156,12 +162,51 @@ const Controller = (() => {
         setStartUp();
     }
 
+    /*
+
+        BATTLE FUNCS & VARIABLES
+
+    */
+   let turn = 0;
+
+    function oppAttackCell(){
+        const res = opp.randomAttack(player.gameboard);
+        if (res[2] === 1) {
+            Display.paintHit(-1, (res[0]*10)+res[1], res[2], 1);
+        }else if (res[2] >= 2){
+            Display.paintHit(player.gameboard.getShip(player.gameboard.shipAt(res[0],res[1])), (res[0]*10)+res[1], res[2], 1);
+        }
+        turn = 0;
+    }
+
+    function setBattleCells(){
+        const oppCells = selectComps(".opp-grid .cell");
+        for(let i = 0; i < oppCells.length; i++){
+            // eslint-disable-next-line no-loop-func
+            oppCells[i].addEventListener("click", () => {
+                if (turn === 0){
+                    const result = opp.gameboard.receiveAttack(Math.floor(i/10), i%10);
+                    if (result !== -1){
+                        if (result === 1) {
+                            Display.paintHit(-1, i, result, 2);
+                        }else if (result >= 2){
+                            Display.paintHit(opp.gameboard.getShip(opp.gameboard.shipAt(Math.floor(i/10), i % 10)), i, result, 2);
+                        }
+                        turn = 1;
+                        oppAttackCell();
+                    }
+                }
+            });
+        }
+    }
+
     function initBattle(){
         Display.battlePage();
         player.generateRandomShip();
-        computer.generateRandomShip();
+        opp.generateRandomShip();
         Display.paintBoard(player.gameboard, 1);
-        Display.paintBoard(computer.gameboard, 2);
+        // Display.paintBoard(opp.gameboard, 2);
+        setBattleCells();
     }
 
     function init(){
