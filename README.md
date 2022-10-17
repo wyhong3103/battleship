@@ -16,7 +16,7 @@ Battleship is a game where you can place the ships on anywhere of the grid you w
 
 # Live demo
 
-https://wyhong3103.github.io/battleship/
+[Here!](https://wyhong3103.github.io/battleship/)
 
 
 
