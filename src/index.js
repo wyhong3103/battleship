@@ -105,7 +105,7 @@ const Controller = (() => {
                             lift();
                             clicks = 0;
                         },
-                        300
+                        200
                     )
                 }else{
                     clearTimeout(timer);
@@ -115,9 +115,6 @@ const Controller = (() => {
             });
 
         }
-    }
-
-    function setUpFirst(){
     }
 
     function setCurrent(){
