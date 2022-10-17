@@ -81,9 +81,11 @@ const Player = (() => {
                     }
                 }
             }else if (!(found[0][0] === found[1][0] && found[0][1] === found[1][1])){
+                // Found different points! Determined the direction!
+
                 // same row
                 if (found[0][0] === found[1][0]){
-                    // Left first
+                    // Try left first
                     res = [
                         found[0][0],
                         found[0][1],
@@ -94,10 +96,12 @@ const Player = (() => {
                         if (res[1] >= 0 && hitGrid[res[0]][res[1]] === -1) res[2] = oppBoard.receiveAttack(res[0],res[1]);
                         else break;
                     }
+                    
+                    // Found another part move pointer
                     if (res[2] >= 2) found[0][1] -= 1;
 
                     if (res[2] === -1){
-                        // Right
+                        // Try right
                         res = [
                             found[1][0],
                             found[1][1],
@@ -111,7 +115,7 @@ const Player = (() => {
                         if (res[2] >= 2) found[1][1] += 1;
                     }
                 }else if (found[1][0] === found[1][1]){
-                    // Left first
+                    // Try left first
                     res = [
                         found[0][0],
                         found[0][1],
@@ -122,10 +126,12 @@ const Player = (() => {
                         if (res[0] >= 0 && hitGrid[res[0]][res[1]] === -1) res[2] = oppBoard.receiveAttack(res[0],res[1]);
                         else break;
                     }
+
+                    // Found another part move pointer
                     if (res[2] >= 2) found[0][0] -= 1;
 
                     if (res[2] === -1){
-                        // Right
+                        // Try right
                         res = [
                             found[1][0],
                             found[1][1],
@@ -151,10 +157,14 @@ const Player = (() => {
                 if (hitGrid[res[0]][res[1]] === -1){
                     res[2] = oppBoard.receiveAttack(res[0], res[1]);
                     if (res[2] === 2){
+
+                        // Set found cell
                         found = [[res[0],res[1]], [res[0], res[1]]];
                         const [row,col] = [res[0], res[1]];
                         const dr = [1, -1, 0, 0];
                         const dc = [0, 0, 1, -1];
+
+                        // Try cells in 4 directions
                         for(let i = 0; i < 4; i++){
                             if (!(row+dr[i] < 0 || row+dr[i] >= 10 || col+dc[i] < 0 || col+dc[i] >= 10 || hitGrid[row+dr[i]][col+dc[i]] === 1)){
                                 queue.push([row+dr[i], col+dc[i]]);
