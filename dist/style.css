@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 10px;
+    --bg-color : #eeeeee;
+    --font1 :'Secular One', sans-serif;
+    --grid-white : #f3f4f6;
+    --gray :#3f3f46;
+    --gray1 : #d4d4d4;
+    --gray2 : #82828c;
+    --block2 : #4ade80;
+    --block3 : #818cf8;
+    --block4 : #fde68a;
+    --block5 : #fda4af;
+}
+
+#content{
+    height : 100vh;
+    width : 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+    overflow: auto;
+}
+
+.hide-bg{
+    position: absolute;
+    height : 100%;
+    width : 100%;
+    backdrop-filter: blur(6px);
+}
+
+.msg-container{
+    position: absolute;
+    height : 100%;
+    width : 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.msg-box{
+    width : 35rem;
+    background-color: var(--grid-white);
+    border-radius: 1rem;
+    padding : 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap : 1rem;
+}
+
+.msg{
+    font-family: var(--font1);
+    font-size: 2rem;
+    text-align: center;
+    color : var(--gray);
+}
+
+.title{
+    font-family: var(--font1);
+    font-size: 6rem;
+    color : var(--gray);
+    text-align: center;
+}
+
+.main{
+    height : 100%;
+    width : 100%;
+    padding : 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.prep-container{
+    height : 40rem;
+    padding-left: 10rem;
+    padding-right : 10rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.grid, .player-grid, .opp-grid{
+    height : 40rem;
+    width : 40rem;
+    display : grid;
+    background-color: var(--grid-white);
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
+
+.cell{
+    height : 4rem;
+    width : 4rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    font-size: 3rem;
+    font-family: var(--font1);
+}
+
+
+.block1{
+    background-color: black;
+}
+
+.block2{
+    background-color : var(--block2);
+}
+
+.block3{
+    background-color : var(--block3);
+}
+
+.block4{
+    background-color : var(--block4);
+}
+
+.block5{
+    background-color : var(--block5);
+}
+
+.prep-right{
+    height : 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.remaining{
+    height : 8rem;
+    width : 40rem;
+    display : grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
+
+.cell-remain, .cell-current{
+    height : 4rem;
+    width : 4rem;
+}
+
+.cell-remain-left{
+    border-left : 4px solid var(--bg-color);
+}
+
+.current-container{
+    display: grid;
+    grid-template-rows: repeat(2,1fr);
+    grid-template-columns: repeat(7,1fr);
+}
+
+
+.current-text{
+    text-align: center;
+    grid-row : 1;
+    grid-column: 1/-1;
+    font-family: var(--font1);
+    color : var(--gray);
+    font-size: 2rem;
+}
+
+.current{
+    grid-row: 2;
+    grid-column: 1/ span 6;
+    height : 4rem;
+    width : 20rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.done-btn{
+    grid-row: 2;
+    grid-column: -2 / -1;
+    border : none;
+    padding : 0.5rem;
+    border-radius: 1rem;;
+    transition : 0.3s;
+}
+
+.done-btn:hover{
+    cursor: pointer;
+    background-color: var(--gray1);
+}
+
+.game-btn-container{
+    width : 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap : 2rem;
+}
+
+
+.start-btn, .ready-btn{
+    font-family: var(--font1);
+    color : var(--gray);
+    font-size: 4rem;
+    font-weight: 600;
+    padding : 1rem 2rem 1rem 2rem;
+    border : none;
+    border-radius: 1rem;
+    transition : all 0.2s;
+    background-color: transparent;
+}
+
+.restart-btn, .exit-btn{
+    font-family: var(--font1);
+    color : var(--gray);
+    font-size: 3rem;
+    font-weight: 600;
+    padding : 1rem 2rem 1rem 2rem;
+    border : none;
+    border-radius: 1rem;
+    transition : all 0.2s;
+    background-color: transparent;
+}
+
+.ok-btn{
+    font-family: var(--font1);
+    color : var(--gray);
+    font-size: 2rem;
+    font-weight: 600;
+    padding : 0.5rem 1rem 0.5rem 1rem;
+    border : none;
+    border-radius: 1rem;
+    transition : all 0.2s;
+    background-color: transparent;
+}
+
+.start-btn:hover, .ready-btn:hover, .restart-btn:hover, .exit-btn:hover, .ok-btn:hover{
+    cursor: pointer;
+    background-color: var(--gray1);
+}
+
+
+.grid-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap : 5rem;
+}
+
+.footer{
+    width : 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-family: var(--font1);
+    flex-direction: row;
+    gap : 1rem;
+    color : var(--gray);
+}
+
+.footer a{
+    display: flex;
+    flex-direction: row;
+    gap : 1rem;
+    text-decoration: none;
+    color : var(--gray);
+    transition: all 0.3s;
+}
+
+.footer a:hover{
+    cursor: pointer;
+    color :var(--gray2);
+}
+
+
+
+
+
+
+
+
