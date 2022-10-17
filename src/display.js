@@ -11,8 +11,12 @@ const Display = (() => {
         prepRight.appendChild(startBtn);
     }
 
-    function resetGridCells(){
-        const grid = selectComp(".grid");
+    function resetGridCells(gridNumber = -1){
+        let selector = "";
+        if (gridNumber === 1) selector = ".player-grid";
+        else if (gridNumber === 2) selector = ".opp-grid";
+        else selector = ".grid";
+        const grid = selectComp(selector);
         grid.innerHTML = "";
         for(let i = 0; i < 100; i++){
             const cell = createComp("div", "cell");
@@ -63,9 +67,13 @@ const Display = (() => {
         }
     }
 
-    function paintBoard(gameboard){
-        resetGridCells();
-        const cells = selectComps(".grid .cell");
+    function paintBoard(gameboard, grid = -1){
+        resetGridCells(grid);
+        let selector = "";
+        if (grid === 1) selector = ".player-grid";
+        else if (grid === 2) selector = ".opp-grid";
+        else selector = ".grid";
+        const cells = selectComps(`${selector} .cell`);
 
         for(let i = 0; i < 10; i++){
             for(let j = 0; j < 10; j++){
@@ -104,6 +112,7 @@ const Display = (() => {
 
     // Initialize preparation page
     function prepPage(){
+        content.innerHTML = "";
         const main = createComp("div", "main");    
 
         const title = createComp("h1", "title");
@@ -141,13 +150,32 @@ const Display = (() => {
         content.appendChild(main);
     }
 
+    function battlePage(){
+        content.innerHTML = "";
+        const main = createComp("div", "main");    
+
+        const title = createComp("h1", "title");
+        title.textContent = "BATTLESHIP";
+
+        const playerGrid = createComp("div", "player-grid");
+        for(let i = 0; i < 100; i++){
+            const cell = createComp("div", "cell");
+            playerGrid.appendChild(cell);
+        }
+
+        main.appendChild(title);
+        main.appendChild(playerGrid);
+        content.appendChild(main);
+    }
+
     return {
         prepPage,
         paintStock,
         paintBoard,
         paintCurrent,
         allowStart,
-        addCurrent
+        addCurrent,
+        battlePage
     }
 
 })();
