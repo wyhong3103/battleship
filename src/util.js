@@ -33,10 +33,28 @@ function selectComps(selector){
     return document.querySelectorAll(selector);
 }
 
+function clearEvtLs(selector, group = false){
+    if (group){
+        const comps = selectComps(selector);
+        for(let i = 0; i < comps.length; i++){
+            const oldComp = comps[i];
+            const newComp = comps[i].cloneNode(true);
+            oldComp.parentNode.replaceChild(newComp, oldComp);
+        }
+
+    }else{
+        const comp = selectComp(selector);
+        const oldComp = comp;
+        const newComp = comp.cloneNode(true);
+        oldComp.parentNode.replaceChild(newComp, oldComp);
+    }
+}
+
 
 export {
     shuffle,
     createComp,
     selectComp,
     selectComps,
+    clearEvtLs
 };
