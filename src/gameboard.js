@@ -3,7 +3,7 @@ import Ship from "./ship";
 const Gameboard = (() => {
     const grid = [];
     const hitGrid = [];
-    const ships = [];
+    let ships = [];
     let shipsRemaining = 0;
 
     function generateGrid(){
@@ -22,6 +22,20 @@ const Gameboard = (() => {
             }
             hitGrid.push(temp);
         }
+    }
+
+    function restartBoard(){
+        for(let i = 0; i < 10; i++){
+            for(let j = 0; j < 10; j++){
+                hitGrid[i][j] = -1;
+            }
+        }
+        shipsRemaining = ships.length;
+        const newShips = [];
+        for(let i = 0; i < ships.length; i++){
+            newShips.push(Ship(ships[i].shipLength, ships[i].getHead(), ships[i].getHor()));
+        }
+        ships = newShips;
     }
 
     function isInvalidCoord(row, col){
@@ -67,6 +81,7 @@ const Gameboard = (() => {
 
     function newShip(length){
         ships.push(Ship(length, -1, -1,true));
+        shipsRemaining += 1;
         return ships[ships.length-1];
     }
 
@@ -183,7 +198,8 @@ const Gameboard = (() => {
         shipAt,
         getShip,
         unplaceShip,
-        newShip
+        newShip,
+        restartBoard
     }
 });
 
