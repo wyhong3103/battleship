@@ -202,8 +202,27 @@ const Display = (() => {
 
         prepContainer.appendChild(prepLeft);
         prepContainer.appendChild(prepRight);
+
+        const footer = createComp("div", "footer");
+        const footerText = createComp("p");
+        footerText.textContent = "Made By";
+        const anchor = createComp("a");
+        anchor.setAttribute("href", "https://github.com/wyhong3103");
+        const gitHubImg = createComp("img", "github-svg");
+        gitHubImg.src = "./assets/github.svg";
+        const gitHubName = createComp("p");
+        gitHubName.textContent = "wyhong3103";
+
+        anchor.appendChild(gitHubImg);
+        anchor.appendChild(gitHubName);
+
+        footer.appendChild(footerText);
+        footer.appendChild(anchor);
+
+
         main.appendChild(title);
         main.appendChild(prepContainer);
+        main.appendChild(footer);
 
         content.appendChild(main);
     }
@@ -240,9 +259,27 @@ const Display = (() => {
         gameBtnContainer.appendChild(restartBtn);
         gameBtnContainer.appendChild(exitBtn);
 
+        const footer = createComp("div", "footer");
+        const footerText = createComp("p");
+        footerText.textContent = "Made By";
+        const anchor = createComp("a");
+        anchor.setAttribute("href", "https://github.com/wyhong3103");
+        const gitHubImg = createComp("img", "github-svg");
+        gitHubImg.src = "./assets/github.svg";
+        const gitHubName = createComp("p");
+        gitHubName.textContent = "wyhong3103";
+
+        anchor.appendChild(gitHubImg);
+        anchor.appendChild(gitHubName);
+
+        footer.appendChild(footerText);
+        footer.appendChild(anchor);
+
+
         main.appendChild(title);
         main.appendChild(gridContainer);
         main.appendChild(gameBtnContainer);
+        main.appendChild(footer);
         content.appendChild(main);
     }
 
