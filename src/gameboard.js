@@ -65,8 +65,13 @@ const Gameboard = (() => {
         return false;
     }
 
+    function newShip(length){
+        ships.push(Ship(length, -1, -1,true));
+        return ships[ships.length-1];
+    }
+
     function getShip(id){
-        return ships[id];
+        return (id >= ships.length ? -1 :  ships[id])
     }
 
     function shipAt(row, col){
@@ -178,6 +183,7 @@ const Gameboard = (() => {
         shipAt,
         getShip,
         unplaceShip,
+        newShip
     }
 });
 
