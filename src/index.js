@@ -266,6 +266,8 @@ const Controller = (() => {
 
     function init(){
         initPrep();
+        Display.displayMsg("Welcome to BATTLESHIP! Place your ships and ready for war!");
+        setMsg();
     }
 
     return{
